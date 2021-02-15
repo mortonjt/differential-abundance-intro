@@ -14,13 +14,11 @@ parameters {
 }
 
 transformed parameters {
-  matrix[N, D-1] lam;
-  matrix[N, D] lclr;
+  matrix[N, D] lam;
   vector[N] z;
 
   z = to_vector(rep_array(0, N));
-  lam = x * beta;
-  lclr = append_col(z, lam);
+  lam = append_col(z, x * beta;);
 }
 
 model {
@@ -30,7 +28,7 @@ model {
   // generating counts
   for (n in 1:N){
     for (d in 1:D){
-      target += neg_binomial_2_log_lpmf(y[n, d] | depth[n] + lclr[n, d], disp);
+      target += neg_binomial_2_log_lpmf(y[n, d] | depth[n] + lam[n, d], disp);
     }
   }
 }
