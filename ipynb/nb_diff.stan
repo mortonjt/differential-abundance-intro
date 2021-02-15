@@ -1,33 +1,36 @@
 data {
-  int<lower=0> N;    // number of samples
-  int<lower=0> p;    // number of covariates
-  real depth[N];     // sequencing depths of microbes
-  matrix[N, p] x;    // covariate matrix
-  int y[N];          // observed microbe abundances
+  int<lower=0> N;     // number of samples
+  int<lower=0> D;     // number of samples
+  int<lower=0> p;     // number of covariates
+  real depth[N];      // sequencing depths of microbes
+  matrix[N, p] x;     // covariate matrix
+  int y[N, D];        // observed microbe abundances
 }
 
 parameters {
   // parameters required for linear regression on the species means
-  vector[p] beta;                 // covariates
-  real<lower=0> disp;
+  matrix[p, D-1] beta;  // covariates
+  real<lower=0> disp; // over-dispersion to help control for variance
 }
 
 transformed parameters {
-  vector[N] lam;
-  vector[N] lam_clr;
+  matrix[N, D-1] lam;
+  matrix[N, D] lclr;
   vector[N] z;
 
   z = to_vector(rep_array(0, N));
   lam = x * beta;
-  lam_clr = append_col(z, lam);
+  lclr = append_col(z, lam);
 }
 
 model {
   // setting priors ...
   disp ~ inv_gamma(1., 1.);
-  beta ~ normal(0., 10.); // uninformed prior
+  to_vector(beta) ~ normal(0., 10.); // uninformed prior
   // generating counts
   for (n in 1:N){
-    target += neg_binomial_2_log_lpmf(y[n] | depth[n] + lam[n], disp);
+    for (d in 1:D){
+      target += neg_binomial_2_log_lpmf(y[n, d] | depth[n] + lclr[n, d], disp);
+    }
   }
 }

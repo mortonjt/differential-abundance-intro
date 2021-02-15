@@ -1,0 +1,2 @@
+install_cmdstan
+export TBB_CXX_TYPE=gcc
