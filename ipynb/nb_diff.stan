@@ -18,7 +18,7 @@ transformed parameters {
   vector[N] z;
 
   z = to_vector(rep_array(0, N));
-  lam = append_col(z, x * beta;);
+  lam = append_col(z, x * beta);
 }
 
 model {
