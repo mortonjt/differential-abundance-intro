@@ -1,7 +1,6 @@
 channels:
 - conda-forge
 dependencies:
-- biom-format=2.1.0
 - pandas=1.2.2
 - seaborn=0.11.1
 - jupyter=1.0.0
