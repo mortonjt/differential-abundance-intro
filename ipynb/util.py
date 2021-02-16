@@ -1,3 +1,4 @@
+import numpy as np
 
 
 def default_barplot(ax, x, t, ticks=False):
@@ -29,3 +30,9 @@ def default_ternary_labels(tax):
     return tax
 
 
+def extract_log_fold_change(fit, n, p, mc_samples=1000):
+    colnames = np.array(fit.column_names)
+    beta_idx = np.array(list(map(lambda x: 'beta' in x, colnames)))
+    beta_samples = fit.variational_sample.iloc[:, beta_idx].values.reshape((
+        mc_samples, n - 1, p))
+    return beta_samples
