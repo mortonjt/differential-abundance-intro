@@ -1,5 +1,7 @@
 # Introduction to Differential Abundance Analysis
 
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/mortonjt/differential-abundance-intro/HEAD)
+
 Here, we have a couple of notebooks designed to walk-through of compositional data analysis, and how these concepts are key for building interpretable differential abundance tools. These statistical approaches were design for applications in microbiome, metabolomics and gene expression.
 
 # How should I run this?
